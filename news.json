@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Tech Giant Unveils Revolutionary AI",
+        "category": "Technology",
+        "time": "2 hours ago",
+        "content": "A leading tech company has announced a groundbreaking AI system that promises to transform how we interact with technology daily. This new system uses advanced machine learning techniques to enhance user experience, but experts warn of potential ethical challenges. The company plans to roll out this technology globally by next year, sparking widespread discussion in the tech community.",
+        "language": "english",
+        "image": "https://via.placeholder.com/600x400?text=Tech+AI",
+        "published": "2025-02-21T10:00:00Z"
+    },
+    {
+        "title": "New Education Policy Released",
+        "category": "Education",
+        "time": "4 hours ago",
+        "content": "The government has unveiled a new education policy aimed at improving access and quality of education across the country. This policy includes reforms in curriculum, teacher training, and digital learning initiatives, but faces criticism from some educators.",
+        "language": "english",
+        "image": "https://via.placeholder.com/600x400?text=Education+Policy",
+        "published": "2025-02-21T08:00:00Z"
+    },
+    {
+        "title": "International Trade Agreement Signed",
+        "category": "International",
+        "time": "6 hours ago",
+        "content": "Countries across the globe have signed a landmark trade agreement to boost economic cooperation. The deal focuses on reducing tariffs, enhancing supply chains, and promoting sustainable trade practices, but raises concerns about local industries.",
+        "language": "english",
+        "video": "https://www.example.com/sample-video.mp4",
+        "published": "2025-02-21T06:00:00Z"
+    },
+    {
+        "title": "Development Project Launched in Rural Areas",
+        "category": "Development",
+        "time": "8 hours ago",
+        "content": "A new development project has been launched to improve infrastructure and living conditions in rural regions. The initiative includes road construction, clean water access, and job creation programs, but faces funding challenges.",
+        "language": "english",
+        "image": "https://via.placeholder.com/600x400?text=Development+Project",
+        "published": "2025-02-21T04:00:00Z"
+    }
+]

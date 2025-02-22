@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aal News - Breaking News in Shorts</title>
+    
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts for Poppins and Noto Serif Malayalam -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Questrial&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Malayalam:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Questrial&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 4.7.0 for Social Icons, Down Arrow, and Share Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Local font for Game Of Squids -->
+    <style>
+        @font-face {
+            font-family: 'Game Of Squids';
+            src: url('fonts/Game Of Squids.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Default English font */
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Malayalam text uses Noto Serif Malayalam */
+        .malayalam {
+            font-family: 'Noto Serif Malayalam', serif !important; /* Force Malayalam font with !important */
+        }
+
+        .dark-mode {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .header {
+            background: #00DFA2; /* Teal (#00DFA2) for navbar */
+            color: white;
+            padding: 0.75rem 1.5rem; /* Consistent padding for better spacing */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #F6FA70; /* Light yellow (#F6FA70) border for accent (analogous to teal) */
+        }
+
+        .header h1 {
+            font-family: 'Game Of Squids', cursive; /* Custom font for Aal News */
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #F6FA70; /* Light yellow (#F6FA70) for Aal News (analogous to teal) */
+            margin: 0;
+            cursor: pointer; /* Indicate clickable */
+        }
+
+        .menu-toggle {
+            display: none; /* Hidden by default on desktop */
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem; /* Adjusted padding for better visual balance */
+            margin-left: 0; /* No space needed on mobile (toggle in menu) */
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem; /* Consistent gap for better spacing */
+        }
+
+        .nav-menu a {
+            font-family: 'Poppins', sans-serif; /* English font for navigation */
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #FF0060; /* Pink (#FF0060) hover effect (triadic to teal for balance) */
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem; /* Adjusted padding for better visual balance */
+            margin: 0; /* Remove margins when inside menu */
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-icons a {
+            padding: 10px; /* Adjusted for tighter design */
+            font-size: 20px; /* Smaller icons for consistency */
+            width: 40px; /* Adjusted for tighter design */
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            opacity: 0.7;
+            background: #00DFA2; /* Teal (#00DFA2) hover background for more teal usage */
+            color: white; /* Ensure text/icon remains visible on hover */
+        }
+
+        /* Set specific colors for each brand as per your CSS, with teal accents */
+        .fa-facebook {
+            background: #3B5998;
+            color: white;
+        }
+
+        .fa-twitter {
+            background: #55ACEE;
+            color: white;
+        }
+
+        .fa-google-plus {
+            background: #dd4b39;
+            color: white;
+        }
+
+        .fa-linkedin {
+            background: #007bb5;
+            color: white;
+        }
+
+        .trending {
+            font-family: 'Poppins', sans-serif; /* English font for trending */
+            background: #f8f9fa;
+            padding: 0.5rem 1.5rem; /* Consistent padding for better spacing */
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto 2rem; /* Adjusted for increased header height */
+            padding: 0 1.5rem; /* Consistent padding for better spacing */
+        }
+
+        .nav-menu.mobile-theme-toggle {
+            display: none; /* Hidden by default, shown in expanded menu on mobile */
+        }
+
+        .nav-menu.active .mobile-theme-toggle {
+            display: block; /* Show in expanded menu on mobile */
+            margin-top: 0.5rem; /* Space above toggle in menu */
+            margin-bottom: 0.5rem; /* Space below toggle in menu */
+        }
+
+        .news-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* Desktop and Large Tablets (2 columns) */
+        @media (min-width: 1024px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .menu-toggle {
+                display: none; /* Hidden on desktop */
+            }
+            .nav-menu {
+                display: flex;
+            }
+            .header h1 {
+                margin-right: 2.5rem; /* Increased space for navigation */
+            }
+            .social-icons {
+                display: flex;
+            }
+            .theme-toggle {
+                display: block; /* Show on desktop */
+                margin-left: 1.5rem; /* Increased space from social icons */
+                margin-right: 0; /* Ensure right alignment */
+            }
+            .nav-menu .mobile-theme-toggle {
+                display: none; /* Hide mobile-specific toggle on desktop */
+            }
+        }
+
+        /* Tablets and Medium-Large Mobile Devices (1 or 2 columns, depending on width) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .menu-toggle {
+                display: none; /* Hidden on tablets */
+            }
+            .nav-menu {
+                display: flex;
+            }
+            .header h1 {
+                margin-right: 2.5rem; /* Increased space for navigation */
+            }
+            .social-icons {
+                display: flex;
+            }
+            .theme-toggle {
+                display: block; /* Show on tablets */
+                margin-left: 1.5rem; /* Increased space from social icons */
+                margin-right: 0; /* Ensure right alignment */
+            }
+            .nav-menu .mobile-theme-toggle {
+                display: none; /* Hide mobile-specific toggle on tablets */
+            }
+        }
+
+        /* Small to Medium Mobile Devices (1 column, optimized for smaller screens) */
+        @media (max-width: 767px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-toggle {
+                display: block; /* Show hamburger on mobile */
+                margin-left: 0; /* No space needed (toggle in menu) */
+            }
+            .nav-menu {
+                display: none; /* Hidden by default on mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 50px; /* Adjusted for smaller header height */
+                left: 0;
+                width: 100%;
+                background: #00DFA2; /* Match header background with teal */
+                padding: 1rem 1.5rem; /* Consistent padding for better spacing */
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .header h1 {
+                margin-right: 0; /* No space needed on mobile */
+                font-size: 1.5rem; /* Larger for mobile devices */
+            }
+            .social-icons {
+                display: none; /* Hide social icons on mobile to simplify */
+            }
+            .theme-toggle {
+                display: none; /* Hide in header on mobile, use mobile-theme-toggle in menu */
+            }
+            .nav-menu .mobile-theme-toggle {
+                display: block; /* Show in expanded menu on mobile */
+                margin-top: 0.5rem; /* Space above toggle in menu */
+                margin-bottom: 0.5rem; /* Space below toggle in menu */
+            }
+            .news-card {
+                padding: 1rem 1rem; /* Reduced padding for smaller screens, consistent with container */
+            }
+            .news-title {
+                font-size: 1rem; /* Smaller title on mobile */
+            }
+            .news-content {
+                font-size: 0.9rem; /* Smaller content on mobile */
+            }
+        }
+
+        /* Very Small Mobile Devices (e.g., iPhone SE, small Android phones) */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3rem; /* Slightly smaller but still larger on very small screens */
+            }
+            .menu-toggle {
+                font-size: 1rem; /* Smaller hamburger icon */
+                padding: 0.3rem 0.5rem; /* Adjusted padding for smaller screens */
+            }
+            .nav-menu a {
+                font-size: 0.8rem; /* Smaller navigation text */
+                padding: 0.3rem 1rem; /* Adjusted padding for better spacing */
+            }
+            .nav-menu .mobile-theme-toggle {
+                font-size: 1rem; /* Smaller toggle icon on very small screens */
+                padding: 0.3rem 0.5rem; /* Adjusted padding for smaller screens */
+            }
+            .news-card {
+                padding: 0.8rem 1rem; /* Even smaller padding, consistent with container */
+            }
+            .category {
+                font-size: 0.7rem; /* Smaller category text */
+                padding: 0.2rem 0.5rem; /* Reduced padding */
+            }
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 12px; /* More modern, rounded corners */
+            margin-bottom: 1rem;
+            padding: 1.5rem 1.5rem; /* Consistent padding for better spacing */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Enhanced shadow for modern look */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, max-height 0.3s ease;
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            max-height: 350px; /* Increased default height for video articles to show more text */
+            position: relative;
+        }
+
+        .news-card.expanded {
+            max-height: 1000px; /* Fully expanded height (adjust as needed) */
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover for modern feel */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0; /* Subtle hover effect for light mode */
+        }
+
+        .dark-mode .news-card {
+            background: #1a1a1a;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .news-card:hover {
+            background: #2c2c2c; /* Darker hover effect for dark mode */
+        }
+
+        .news-card:nth-child(2n) { animation-delay: 0.1s; }
+        .news-card:nth-child(3n) { animation-delay: 0.2s; }
+        .news-card:nth-child(4n) { animation-delay: 0.3s; }
+
+        .news-title {
+            font-family: 'Poppins', sans-serif; /* English font for titles (default for English) */
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem; /* Consistent margin for better spacing */
+            color: #0079FF; /* Bright blue (#0079FF) for titles (complementary to teal) */
+            font-weight: bold;
+        }
+
+        .dark-mode .news-title {
+            color: #F6FA70; /* Light yellow (#F6FA70) in dark mode (analogous to teal) */
+        }
+
+        .news-meta {
+            font-family: 'Poppins', sans-serif; /* English font for meta (default for English) */
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem; /* Consistent margin for better spacing */
+        }
+
+        .dark-mode .news-meta {
+            color: #bbb;
+        }
+
+        .news-content {
+            font-family: 'Poppins', sans-serif; /* Default English font for content */
+            font-size: 1rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .news-content.image-only {
+            -webkit-line-clamp: 2; /* Show only 2 lines by default for image articles */
+        }
+
+        .news-content.video {
+            -webkit-line-clamp: 3; /* Show 3 lines by default for video articles to show more text */
+        }
+
+        .news-content.expanded {
+            -webkit-line-clamp: unset; /* Show full content when expanded */
+            overflow: visible;
+        }
+
+        .malayalam .news-title, .malayalam .news-meta, .malayalam .news-content {
+            font-family: 'Noto Serif Malayalam', serif !important; /* Force Malayalam font with !important */
+        }
+
+        .category {
+            font-family: 'Poppins', sans-serif; /* English font for category (default for English) */
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            background: #00DFA2; /* Teal (#00DFA2) category tag for more teal usage */
+            color: #0079FF; /* Bright blue (#0079FF) text for contrast (complementary to teal) */
+            border-radius: 15px; /* More rounded for modern look */
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem; /* Added margin for better spacing */
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .malayalam .category {
+            font-family: 'Noto Serif Malayalam', serif !important; /* Force Malayalam font with !important */
+        }
+
+        .media {
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 200px; /* Limit media height to prevent overflow */
+        }
+
+        .media img, .media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .read-more, .share-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #0079FF; /* Bright blue (#0079FF) button (complementary to teal for contrast) */
+            color: #fff; /* White text */
+            border: none;
+            border-radius: 15px; /* Slightly smaller radius for a tighter look */
+            padding: 0.2rem 0.6rem; /* Even smaller padding for a smaller button */
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6rem; /* Even smaller font size */
+            display: flex;
+            align-items: center;
+            gap: 0.2rem; /* Reduced gap for tighter design */
+            transition: background 0.3s ease, color 0.3s ease;
+            z-index: 1; /* Ensure it stays above other content */
+            margin-right: 5px; /* Space between buttons if stacked */
+        }
+
+        .share-button {
+            position: relative; /* Change to relative positioning for top placement */
+            top: 10px; /* Position at the top with a small margin */
+            right: auto; /* Remove right positioning */
+            left: 10px; /* Align to the left with a small margin */
+            background: #FF0060; /* Pink (#FF0060) for share button (triadic to teal for balance) */
+            margin-bottom: 0.5rem; /* Space below share button before media or content */
+        }
+
+        .share-button:hover {
+            background: #00DFA2; /* Teal (#00DFA2) on hover (primary color) */
+            color: #fff; /* White text on hover to maintain visibility */
+        }
+
+        .read-more:hover {
+            background: #00DFA2; /* Teal (#00DFA2) on hover (primary color) */
+            color: #fff; /* White text on hover to maintain visibility */
+        }
+
+        .read-more i, .share-button i {
+            font-size: 0.6rem; /* Even smaller icon size */
+        }
+
+        .read-more.expanded i {
+            transform: rotate(180deg);
+        }
+
+        .loading {
+            font-family: 'Poppins', sans-serif; /* English font for loading */
+            text-align: center;
+            padding: 2rem 1.5rem; /* Consistent padding for better spacing */
+            color: #666;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 onclick="goToHome()">AAL NEWS</h1>
+        <nav class="nav-menu">
+            <a href="#news" onclick="filterNews('News'); closeMobileMenu()">News</a>
+            <a href="#policy" onclick="filterNews('Policy'); closeMobileMenu()">Policy</a>
+            <a href="#education" onclick="filterNews('Education'); closeMobileMenu()">Education</a>
+            <a href="#technology" onclick="filterNews('Technology'); closeMobileMenu()">Technology</a>
+            <a href="#international" onclick="filterNews('International'); closeMobileMenu()">International</a>
+            <a href="#events" onclick="filterNews('Events'); closeMobileMenu()">Events</a>
+            <a href="#jobs" onclick="filterNews('Jobs'); closeMobileMenu()">Jobs</a>
+            <a href="#development" onclick="filterNews('Development'); closeMobileMenu()">Development</a>
+            <button class="theme-toggle mobile-theme-toggle" onclick="toggleTheme()">🌙</button> <!-- Moved to nav-menu for mobile -->
+        </nav>
+        <div class="social-icons">
+            <a href="#" class="fa fa-facebook"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-google-plus"></a>
+            <a href="#" class="fa fa-linkedin"></a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Hamburger menu (3 bars) -->
+    </header>
+
+    <div class="trending">
+        TRENDING: TECHNOLOGY | POLITICS | SCIENCE | EDUCATION SERIES: CLOSE TO HOME
+    </div>
+
+    <div class="container">
+        <div class="news-grid" id="newsContainer">
+            <div class="loading">Loading news...</div>
+        </div>
+    </div>
+
+    <script>
+        let allNews = [];
+
+        function formatTimeAgo(publishedDate) {
+            const now = new Date();
+            const published = new Date(publishedDate);
+            const diffMs = now - published;
+            const diffSeconds = Math.floor(diffMs / 1000);
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffSeconds < 60) return `${diffSeconds} seconds ago`;
+            if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            return `${diffDays} days ago`;
+        }
+
+        function updateTimes() {
+            const metaElements = document.querySelectorAll('.news-meta');
+            metaElements.forEach(meta => {
+                const publishedDate = meta.dataset.published; // Use data attribute for the original timestamp
+                if (publishedDate) {
+                    meta.textContent = formatTimeAgo(publishedDate);
+                }
+            });
+        }
+
+        function createNewsCard(news) {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            card.id = `news-${news.title.replace(/ /g, '-').toLowerCase()}`; // Add ID for anchor links
+            let mediaHTML = '';
+            if (news.video) {
+                mediaHTML = `<div class="media"><video controls><source src="${news.video}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
+            } else if (news.image) {
+                mediaHTML = `<div class="media"><img src="${news.image}" alt="${news.title}"></div>`;
+            }
+            card.innerHTML = `
+                <button class="share-button" onclick="shareArticle('${encodeURIComponent(window.location.origin + window.location.pathname + '#' + card.id)}', '${news.title}')"><i class="fa fa-share"></i> Share</button>
+                ${mediaHTML}
+                <span class="category ${news.language === 'malayalam' ? 'malayalam' : ''}">${news.category}</span>
+                <h2 class="news-title ${news.language === 'malayalam' ? 'malayalam' : ''}">${news.title}</h2>
+                <div class="news-meta ${news.language === 'malayalam' ? 'malayalam' : ''}" data-published="${news.published || new Date().toISOString()}">${formatTimeAgo(news.published || new Date().toISOString())}</div>
+                <p class="news-content ${news.video ? 'video' : 'image-only'} ${news.language === 'malayalam' ? 'malayalam' : ''}">${news.content}</p>
+                <button class="read-more"><i class="fa fa-arrow-down"></i> Read More</button>
+            `;
+            // Ensure content and media layout works correctly
+            const media = card.querySelector('.media');
+            const content = card.querySelector('.news-content');
+            if (media) {
+                media.style.order = 2; // Media after share button
+                content.style.order = 3; // Content after media
+            } else {
+                content.style.order = 2; // Content after share button if no media
+            }
+            // Add click event for Read More
+            const readMoreBtn = card.querySelector('.read-more');
+            readMoreBtn.addEventListener('click', () => toggleReadMore(card));
+            return card;
+        }
+
+        function toggleReadMore(card) {
+            card.classList.toggle('expanded');
+            const content = card.querySelector('.news-content');
+            const readMoreBtn = card.querySelector('.read-more');
+            content.classList.toggle('expanded');
+            readMoreBtn.classList.toggle('expanded');
+            readMoreBtn.textContent = readMoreBtn.classList.contains('expanded') ? 'Read Less' : 'Read More';
+            readMoreBtn.querySelector('i').style.transform = readMoreBtn.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        async function loadNews() {
+            try {
+                console.log('Attempting to fetch news.json...');
+                const response = await fetch('news.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                console.log('Successfully fetched news.json');
+                allNews = await response.json();
+                
+                filterNews('All'); // Load all news by default
+            } catch (error) {
+                console.error('Error loading news:', error.message);
+                document.getElementById('newsContainer').innerHTML = 
+                    `<div class="loading">Failed to load news. Error: ${error.message}. Please try again later.</div>`;
+            }
+        }
+
+        function filterNews(category) {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = ''; // Clear current news
+
+            const filteredNews = category === 'All' 
+                ? allNews 
+                : allNews.filter(news => news.category === category);
+
+            if (filteredNews.length === 0) {
+                container.innerHTML = '<div class="loading">No news found for this category.</div>';
+                return;
+            }
+
+            filteredNews.forEach((news, index) => {
+                setTimeout(() => {
+                    container.appendChild(createNewsCard(news));
+                }, index * 100); // Staggered loading effect
+            });
+            updateTimes(); // Update times for new cards
+
+            // Update active class on nav links
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => link.classList.remove('active')); // Remove active class from all links
+            if (category !== 'All') {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('onclick').includes(category)) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        function goToHome() {
+            filterNews('All'); // Reset to show all news (home)
+        }
+
+        function closeMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (window.innerWidth <= 767 && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+            }
+        }
+
+        async function shareArticle(url, title) {
+            if (navigator.share) { // Web Share API for modern browsers
+                try {
+                    await navigator.share({
+                        title: title,
+                        url: url,
+                        text: 'Check out this news article from Aal News!'
+                    });
+                    console.log('Shared successfully');
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                    fallbackShare(url, title); // Fallback if sharing fails
+                }
+            } else {
+                fallbackShare(url, title); // Fallback for browsers without Web Share API
+            }
+        }
+
+        function fallbackShare(url, title) {
+            // Copy URL to clipboard as a fallback
+            navigator.clipboard.writeText(url).then(() => {
+                alert(`Copied to clipboard: ${title} - ${url}`);
+            }).catch(err => {
+                console.error('Failed to copy to clipboard:', err);
+                alert(`Unable to share automatically. Please copy this URL manually: ${url}`);
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+            const mobileThemeToggle = navMenu.querySelector('.mobile-theme-toggle');
+            if (mobileThemeToggle) {
+                mobileThemeToggle.focus(); // Optionally focus the toggle for accessibility
+            }
+        }
+
+        // Update times every second for real-time effect
+        setInterval(updateTimes, 1000);
+
+        // Load news when page loads
+        window.onload = loadNews;
+
+        // Auto-refresh news every 5 minutes
+        setInterval(loadNews, 300000);
+
+        // Infinite scroll simulation (optional, adjust as needed for filtered content)
+        let page = 1;
+        window.addEventListener('scroll', async () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                page++;
+                try {
+                    const response = await fetch('news.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const newNews = await response.json();
+                    allNews = [...allNews, ...newNews.filter(n => !allNews.some(existing => existing.title === n.title))];
+                    filterNews(document.querySelector('.nav-menu a.active')?.getAttribute('onclick')?.match(/'([^']+)'/)[1] || 'All');
+                    updateTimes(); // Update times for new cards
+                } catch (error) {
+                    console.error('Error loading more news:', error.message);
+                }
+            }
+        });
+
+        // Check for updates every 30 seconds
+        setInterval(async () => {
+            const response = await fetch('news.json');
+            if (!response.ok) {
+                console.error('Error checking updates:', `HTTP error! status: ${response.status}`);
+                return;
+            }
+            const newData = await response.json();
+            const container = document.getElementById('newsContainer');
+            const existingTitles = Array.from(container.querySelectorAll('.news-title'))
+                .map(title => title.textContent);
+            
+            newData.forEach(news => {
+                if (!existingTitles.includes(news.title)) {
+                    allNews.unshift(news); // Add new items to the beginning
+                    filterNews(document.querySelector('.nav-menu a.active')?.getAttribute('onclick')?.match(/'([^']+)'/)[1] || 'All');
+                    updateTimes(); // Update times for new cards
+                }
+            });
+        }, 30000);
+    </script>
+</body>
+</html>
